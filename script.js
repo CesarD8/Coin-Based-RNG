@@ -8,17 +8,11 @@ function flip() {
     var value = parseInt(document.getElementById("maxvalue").value);
   
     if(typeof(value) == undefined)
-    {
       alert("Please input a number");
-    }
     else if(value > 1000000)
-    {
       alert("Max Value must be less than 1,000,000");
-    }
     else if(value <= 0)
-    {
       alert("Max Value must be greater than 0");
-    }
     else
     {
       var stringValue = RandomNumber(value);
@@ -28,32 +22,41 @@ function flip() {
   
   function RandomNumber(maxValue)
   {
-    var binaryNumber = maxValue.toString(2);
-    var numberOfFlipsNeeded = binaryNumber.length; 
-    var randomBinaryNumber = "";
-    var randomNumber = 0;
-    
-    if(maxValue == 1)
-    {
-      return 1;
-    }
+    if(maxValue == undefined)
+      throw new Error("Please input a number");
+    else if(maxValue > 1000000)
+      throw new Error("Max Value must be less than 1,000,000");
+    else if(maxValue < 1) 
+      throw new Error("Max Value must be greater than 0");
     else
     {
-      do
+      var binaryNumber = maxValue.toString(2);
+      var numberOfFlipsNeeded = binaryNumber.length; 
+      var randomBinaryNumber = "";
+      var randomNumber = 0;
+      
+      if(maxValue == 1)
       {
-        for(var i = 0; i < numberOfFlipsNeeded; i++)
-        {
-          if(flip())
-            randomBinaryNumber += "1";
-          else
-            randomBinaryNumber += "0";
-        }
-      
-        randomNumber = parseInt(randomBinaryNumber,2);
-        randomBinaryNumber= "";
+        return 1;
       }
-      while(randomNumber < 1 || randomNumber > maxValue);
-      
-      return randomNumber;
-    }
+      else
+      {
+        do
+        {
+          for(var i = 0; i < numberOfFlipsNeeded; i++)
+          {
+            if(flip())
+              randomBinaryNumber += "1";
+            else
+              randomBinaryNumber += "0";
+          }
+        
+          randomNumber = parseInt(randomBinaryNumber,2);
+          randomBinaryNumber= "";
+        }
+        while(randomNumber < 1 || randomNumber > maxValue);
+        
+        return randomNumber;
+      }
+  }
   }
